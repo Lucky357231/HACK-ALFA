@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Подключение стилей Core DS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/core-ds/css/core-ds.min.css">
     <title>Рекомендации</title>
 </head>
+
 <body>
     <h1>Получить рекомендации</h1>
     {% if error %}
-        <p style="color: red;">{{ error }}</p>
+    <p style="color: red;">{{ error }}</p>
     {% endif %}
     <form method="post">
         {% csrf_token %}
@@ -18,4 +22,5 @@
         <button type="submit">Получить рекомендацию</button>
     </form>
 </body>
+
 </html>

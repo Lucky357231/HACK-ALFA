@@ -3,8 +3,9 @@ import pandas as pd
 import json
 from django.shortcuts import render
 
-# Загрузка обученной модели
+# Загрузка обученной модели и скейлера
 model = joblib.load('./recommendation_model.pkl')
+scaler = joblib.load('./scaler.pkl')
 
 # Словарь для отображения методов
 method_mapping = {
@@ -51,11 +52,10 @@ def index(request):
             "organizations_count": client_data["organizations_count"],
             "current_method": client_data["current_method"],
             "claims": client_data["claims"],
-            "signatures_mobile_common": client_data["signatures"]["common"]["mobile"],
-            "signatures_web_common": client_data["signatures"]["common"]["web"],
-            "signatures_mobile_special": client_data["signatures"]["special"]["mobile"],
-            "signatures_web_special": client_data["signatures"]["special"]["web"],
-            "available_methods_count": len(client_data["available_methods"])
+            "mobile_web_ratio_common": client_data["signatures"]["common"]["mobile"] / (client_data["signatures"]["common"]["web"] + 1),
+            "total_signatures": client_data["signatures"]["common"]["mobile"] + client_data["signatures"]["common"]["web"],
+            "available_methods_count": len(client_data["available_methods"]),
+            "is_mobile_user": client_data["mobile_app"]
         }])
 
         # Преобразуем категориальные данные в числовые
@@ -63,8 +63,11 @@ def index(request):
         df["role"] = df["role"].astype("category").cat.codes
         df["current_method"] = df["current_method"].astype("category").cat.codes
 
+        # Стандартизация признаков
+        df_scaled = scaler.transform(df)
+
         # Предсказание
-        prediction = model.predict(df)[0]
+        prediction = model.predict(df_scaled)[0]
         predicted_method = method_mapping[prediction]
 
         # Отправляем результат в шаблон
