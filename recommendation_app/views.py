@@ -66,7 +66,10 @@ def index(request):
         # Предсказание
         prediction = model.predict(df)[0]
         predicted_method = method_mapping[prediction]
-
+        
+        request.session['client_data'] = client_data
+        request.session['predicted_method'] = predicted_method
+        
         # Отправляем результат в шаблон
         return render(request, "recommendation_app/result.html", {
             "client_data": client_data,
@@ -75,3 +78,13 @@ def index(request):
 
     # Если метод GET, показываем пустую форму
     return render(request, "recommendation_app/index.html")
+
+def settings(request):
+    # Получаем данные из сессии
+    client_data = request.session.get('client_data', None)
+    predicted_method = request.session.get('predicted_method', None)
+
+    return render(request, "recommendation_app/settings.html", {
+        "client_data": client_data,
+        "predicted_method": predicted_method
+    })
