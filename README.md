@@ -55,3 +55,8 @@
 5. python manage.py runserver
     ```bash
    python manage.py runserver
+## Видео проекта
+
+<video src="https://drive.google.com/file/d/1CJfU4wNvED5aiidSYs71qFWuAFRE9dN2/view?usp=sharing" controls="controls" style="max-width: 100%; height: auto;">
+    Ваш браузер не поддерживает встроенное видео.
+</video>
