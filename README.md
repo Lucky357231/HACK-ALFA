@@ -58,3 +58,7 @@
 ## Видео проекта
 
 [Посмотреть видео презентацию проекта на Google Диске](https://drive.google.com/file/d/1CJfU4wNvED5aiidSYs71qFWuAFRE9dN2/view?usp=sharing)
+
+## Ссылка на сайт
+
+Проект доступен по [Сайт](https://hack-alfa.onrender.com).
