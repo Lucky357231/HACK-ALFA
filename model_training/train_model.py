@@ -20,29 +20,16 @@ def preprocess_data(data):
     df["role"] = df["role"].astype("category").cat.codes
     df["current_method"] = df["current_method"].astype("category").cat.codes
 
-    # Бизнес-логика: определение приоритетных рекомендаций с помощью словаря
-    priority_methods = {
-        "Малый бизнес": "PayControl",
-        "Средний бизнес": "КЭП на токене",
-        "Крупный бизнес": "КЭП в приложении"
-    }
-
-    # Удаляем SMS из доступных методов
+    # Исключаем SMS из рекомендаций, но не из текущего метода
     df["available_methods"] = df["available_methods"].apply(
         lambda x: [m for m in x if m != "SMS"]
     )
 
-    # Применяем бизнес-логику для определения целевой переменной
-    df["target"] = df["segment"].apply(lambda x: priority_methods.get(x, None))
+    # Удаляем строки, где больше нет методов после исключения SMS
+    df = df[df["available_methods"].str.len() > 0]
 
-    # Удаляем строки с пустыми значениями в target (если бизнес-логика не сработала)
-    df = df[df["target"].notna()]
-
-    # Проверка, что после фильтрации остались данные
-    if df.shape[0] == 0:
-        raise ValueError("Нет данных для обучения после применения бизнес-логики")
-
-    # Кодируем целевую переменную
+    # Целевая переменная — первый подходящий метод из доступных
+    df["target"] = df["available_methods"].apply(lambda x: x[0])
     df["target"] = df["target"].astype("category").cat.codes
 
     # Новые признаки
@@ -50,6 +37,8 @@ def preprocess_data(data):
     df["total_signatures"] = df["signatures.common.mobile"] + df["signatures.common.web"]
     df["available_methods_count"] = df["available_methods"].apply(len)
     df["is_mobile_user"] = df["mobile_app"].astype(int)
+
+    # Добавление взаимодействия признаков
     df["role_segment_interaction"] = df["role"] * df["segment"]
 
     return df
@@ -64,10 +53,6 @@ X = df[[
     "available_methods_count", "is_mobile_user", "role_segment_interaction"
 ]]
 y = df["target"]
-
-# Проверка, что в данных есть классы для балансировки
-if y.value_counts().min() == 0:
-    raise ValueError("Нельзя выполнить балансировку классов: один из классов отсутствует")
 
 # Балансировка классов
 smote = SMOTE(random_state=42)
@@ -110,5 +95,5 @@ print("Classification Report:")
 print(classification_report(y_test, y_pred))
 
 # Сохранение модели и масштабатора
-joblib.dump(best_model, "recommendation_model_rf_with_logic.pkl")
-joblib.dump(scaler, "scaler_rf_with_logic.pkl")
+joblib.dump(best_model, "recommendation_model.pkl")
+joblib.dump(scaler, "scaler.pkl")

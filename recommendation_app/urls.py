@@ -20,4 +20,6 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('settings', views.settings, name='settings'),
+    path('sms_metrics/', views.sms_metrics, name='sms_metrics')
 ]

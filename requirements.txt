@@ -11,3 +11,17 @@ joblib
 pandas
 xgboost
 imblearn
+django
+dj-database-url
+gunicorn
+whitenoise
+pytz
+sqlparse
+pyjson
+python-dotenv
+scikit-learn
+joblib
+pandas
+pyhighcharts
+seaborn
+matplotlib

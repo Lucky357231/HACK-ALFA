@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Результаты</title>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        h1,
+        h2 {
+            color: #333;
+            text-align: center;
+        }
+
+        .graph-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 20px 0;
+        }
+
+        .chart {
+            width: 100%;
+            max-width: 600px; /* Ограничиваем ширину */
+            height: 400px; /* Фиксированная высота для графиков */
+            margin: 0 auto;
+            border: 1px solid #ddd; /* Для визуального понимания границ */
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .no-data {
+            text-align: center;
+            color: #999;
+            font-size: 1.2em;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Использование метода SMS</h2>
+
+    {% if clients_count_data and claims_data %}
+        <p>Количество клиентов, использующих SMS: {{ clients_count_data.sms_clients_count }}</p>
+        <p>Общее количество обращений (claims) для метода SMS: {{ claims_data.sms_claims }}</p>
+        <p>Количество клиентов, использующих другие методы: {{ clients_count_data.other_methods_clients_count }}</p>
+
+        <!-- График 1: Количество клиентов, использующих SMS и другие методы -->
+        <div class="graph-container">
+            <div id="clients-count-chart" class="chart"></div>
+        </div>
+
+        <!-- График 2: Количество claims для метода SMS -->
+        <div class="graph-container">
+            <div id="claims-chart" class="chart"></div>
+        </div>
+
+        <script>
+            // Передача данных из Django
+            const smsClientsCount = {{ clients_count_data.sms_clients_count|default:0 }};
+            const otherMethodsClientsCount = {{ clients_count_data.other_methods_clients_count|default:0 }};
+            const smsClaims = {{ claims_data.sms_claims|default:0 }};
+
+            // График 1: Количество клиентов, использующих SMS и другие методы
+            Highcharts.chart('clients-count-chart', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: 'Количество клиентов, использующих SMS и другие методы'
+                },
+                xAxis: {
+                    categories: ['SMS', 'Другие методы']
+                },
+                yAxis: {
+                    title: {
+                        text: 'Количество клиентов'
+                    }
+                },
+                series: [{
+                    name: 'Количество клиентов',
+                    data: [smsClientsCount, otherMethodsClientsCount]
+                }]
+            });
+
+            // График 2: Количество claims для метода SMS
+            Highcharts.chart('claims-chart', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: 'Количество claims для метода SMS'
+                },
+                xAxis: {
+                    categories: ['SMS', 'Другие методы']
+                },
+                yAxis: {
+                    title: {
+                        text: 'Количество claims'
+                    }
+                },
+                series: [{
+                    name: 'Количество claims',
+                    data: [smsClaims, 0] // Для других методов claims равны 0
+                }]
+            });
+        </script>
+    {% else %}
+        <p class="no-data">Нет данных для отображения.</p>
+    {% endif %}
+
+    <a href="/">Назад</a>
+</body>
+
+</html>
