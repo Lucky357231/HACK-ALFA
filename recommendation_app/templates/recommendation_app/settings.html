@@ -38,7 +38,7 @@
                 <h5 class="card-header text-center">КЭП на токене</h5>
                 <div class="card-body">
                     <p class="card-text">Ключи электронной подписи хранятся на специальном USB-токене, который вставляется в компьютер. Для формирования подписи достаточно ввести ПИН-код от токена.</p>
-                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseKEPToken" aria-expanded="false" aria-controls="collapseKEPToken">
+                    <button class="btn btn-primary toggle-details" type="button" data-bs-toggle="collapse" data-bs-target="#collapseKEPToken" aria-expanded="false" aria-controls="collapseKEPToken">
                         Подробнее
                     </button>
                     <div class="collapse" id="collapseKEPToken">
@@ -55,17 +55,17 @@
                                 <li><i class="bi bi-x"></i> Требует настройки ПО на ПК.</li>
                             </ul>
                         </div>
+                        <button class="btn btn-success mt-3 d-flex justify-content-center mx-auto go-to-landing" data-landing-url="/landingX">Страница лендинга</button>
                     </div>
                 </div>
             </div>
-
 
             <!-- Card for КЭП в приложении -->
             <div class="card">
                 <h5 class="card-header text-center">КЭП в приложении</h5>
                 <div class="card-body">
                     <p class="card-text">Ключи электронной подписи хранятся в мобильном приложении или на специальном USB-токене с NFC. Для формирования подписи достаточно ввести ПИН-код и приложить токен с NFC к мобильному устройству.</p>
-                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseKEPApp" aria-expanded="false" aria-controls="collapseKEPApp">
+                    <button class="btn btn-primary toggle-details" type="button" data-bs-toggle="collapse" data-bs-target="#collapseKEPApp" aria-expanded="false" aria-controls="collapseKEPApp">
                         Подробнее
                     </button>
                     <div class="collapse" id="collapseKEPApp">
@@ -80,8 +80,11 @@
                                 <li><i class="bi bi-x"></i> Требуется NFC токен для подписания.</li>
                                 <li><i class="bi bi-x"></i> Получение только офлайн в аккредитованных центрах.</li>
                             </ul>
+
                         </div>
+                        <button class="btn btn-success mt-3 d-flex justify-content-center mx-auto go-to-landing" data-landing-url="/landingX">Страница лендинга</button>
                     </div>
+
                 </div>
             </div>
 
@@ -90,7 +93,7 @@
                 <h5 class="card-header text-center">PayControl</h5>
                 <div class="card-body">
                     <p class="card-text">Ключи электронной подписи хранятся в мобильном приложении банка. Для подписания клиент вводит секретный код или использует биометрический датчик.</p>
-                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePayControl" aria-expanded="false" aria-controls="collapsePayControl">
+                    <button class="btn btn-primary toggle-details" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePayControl" aria-expanded="false" aria-controls="collapsePayControl">
                         Подробнее
                     </button>
                     <div class="collapse" id="collapsePayControl">
@@ -106,13 +109,17 @@
                                 <li><i class="bi bi-x"></i> Подходит только для базовых документов.</li>
                             </ul>
                         </div>
+                        <button class="btn btn-success mt-3 d-flex justify-content-center mx-auto go-to-landing" data-landing-url="/landingX">Страница лендинга</button>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
-
+ <!-- Кнопка назад -->
+        <div class="text-center mt-5">
+            <button class="btn btn-secondary" onclick="history.back()">Назад</button>
+        </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
